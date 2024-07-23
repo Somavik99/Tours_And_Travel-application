@@ -4,10 +4,11 @@ import User from "../Model/UserSchema.js";
 
 export async function postUserReviewComment(req, res, next) {
   const { rating, comment, createdAt } = req.body;
-  // const tourId  = req.params.id;
+  const tourId = req.params.id;
   const userId = req.userId;
-  // console.log("request params"+req.params)
-  // console.log("request body"+req.body)
+  // console.log("request params : " + req.params);
+  console.log("request tourId : " + tourId);
+  console.log("request userId : " + userId);
   try {
     const user = await User.findById(userId);
     if (!user) {
@@ -23,36 +24,31 @@ export async function postUserReviewComment(req, res, next) {
       user: {
         id: userId,
         name: user.name,
-        email:user.email
+        email: user.email,
       },
     });
     const createdNewReview = await newReview.save();
 
-    // const tour = await Tours.findById(tourId);
-    // console.log("tour :"+ tour)
-    // if (!tour) {
-    //   return res
-    //     .status(404)
-    //     .json({
-    //       success: false,
-    //       message: `Tour with ID ${tourId} not found.`,
-    //     });
-    // }
-    // tour.reviews.push(createdNewReview._id);
-    // await tour.save();
-    return res 
-      .status(201)
-      .json({
-        success: true,
-        message: "Review comment added successfully...!",
-        data: createdNewReview,
-      });
-  } catch (error) {
-    return res
-      .status(500)
-      .json({
+    const tour = await Tours.findById(tourId);
+    // console.log("tour :" + tour);
+    if (!tour) {
+      return res.status(404).json({
         success: false,
-        message: `Internal server error : ${error.message}...!`,
+        message: `Tour with ID ${tourId} not found.`,
       });
+    }
+    console.log(createdNewReview.data)
+   tour.reviews.push(createdNewReview.data);
+    await tour.save();
+    return res.status(201).json({
+      success: true,
+      message: "Review comment added successfully...!",
+      data: createdNewReview,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: `Internal server error : ${error.message}...!`,
+    });
   }
 }

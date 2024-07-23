@@ -7,6 +7,6 @@ const reviewRouter = express.Router();
 
 // POST=> http://localhost:6000/api/v1/review/addReview
 
-reviewRouter.post('/addReview', authenticateToken, postUserReviewComment);
+reviewRouter.post('/tours/:id/review', authenticateToken, postUserReviewComment);
 
 export default reviewRouter;

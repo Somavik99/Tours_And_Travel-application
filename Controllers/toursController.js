@@ -1,6 +1,5 @@
 import Tours from "../Model/ToursSchema.js";
 import User from "../Model/UserSchema.js";
-import Reviews from "../Model/ReviewSchema.js";
 
 // Posting a travel location
 
@@ -16,7 +15,6 @@ export async function postToursLocation(req, res, next) {
     featured,
   } = req.body;
   const userId = req.userId;
-  const reviewId = req.params.id;
 
   try {
     const user = await User.findById(userId);
@@ -25,8 +23,6 @@ export async function postToursLocation(req, res, next) {
         .status(404)
         .json({ success: false, message: "User not found...!" });
     }
-
-    const review = await Reviews.findById(reviewId);
 
     const newTours = new Tours({
       title,
@@ -37,13 +33,6 @@ export async function postToursLocation(req, res, next) {
       maxGroupSize,
       photo,
       featured,
-      reviews: [
-        {
-          id: reviewId,
-          rating:review.rating,
-          comment:review.comment
-        },
-      ],
       user: {
         id: userId,
         name: user.name,
