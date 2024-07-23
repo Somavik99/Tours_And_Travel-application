@@ -56,8 +56,7 @@ export async function postToursLocation(req, res, next) {
 export async function getAllToursData(req, res, next) {
   try {
     const findTours = await Tours.find();
-    console.log(req.body);
-    console.log(req.params);
+
     res
       .status(200)
       .json({ success: true, message: "All tours data...!", data: findTours });

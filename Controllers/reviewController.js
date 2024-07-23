@@ -28,7 +28,7 @@ export async function postUserReviewComment(req, res, next) {
       },
     });
     const createdNewReview = await newReview.save();
-
+console.log(createdNewReview)
     const tour = await Tours.findById(tourId);
     // console.log("tour :" + tour);
     if (!tour) {
@@ -37,8 +37,8 @@ export async function postUserReviewComment(req, res, next) {
         message: `Tour with ID ${tourId} not found.`,
       });
     }
-    console.log(createdNewReview.data)
-   tour.reviews.push(createdNewReview.data);
+    // console.log(createdNewReview.data.data)
+   tour.reviews.push(createdNewReview)
     await tour.save();
     return res.status(201).json({
       success: true,

@@ -36,7 +36,15 @@ const Tours = new mongoose.Schema({
 
   // Setting up review ref
 
-  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "review" }],
+  reviews: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "review",
+      rating: { type: Number },
+      comment: { type: String },
+      createdAt: { type: Date.now },
+    },
+  ],
 
   //   Having user or auth to work with logIn, signUp and auth
 
