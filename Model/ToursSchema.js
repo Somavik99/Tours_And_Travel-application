@@ -38,11 +38,30 @@ const Tours = new mongoose.Schema({
 
   reviews: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "review",
-      rating: { type: Number },
-      comment: { type: String },
-      createdAt: { type: Date.now },
+      rating: {
+        type: Number,
+        min: 1,
+        max: 5,
+      },
+      comment: {
+        type: String,
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+      },
+
+      //   setting Up the auth
+
+      user: {
+        id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        name: {
+          type: String,
+        },
+        email: {
+          type: String,
+        },
+      },
     },
   ],
 

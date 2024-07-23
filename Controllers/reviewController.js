@@ -28,17 +28,17 @@ export async function postUserReviewComment(req, res, next) {
       },
     });
     const createdNewReview = await newReview.save();
-console.log(createdNewReview)
+
     const tour = await Tours.findById(tourId);
-    // console.log("tour :" + tour);
+  
     if (!tour) {
       return res.status(404).json({
         success: false,
         message: `Tour with ID ${tourId} not found.`,
       });
     }
-    // console.log(createdNewReview.data.data)
-   tour.reviews.push(createdNewReview)
+   
+    tour.reviews.push(createdNewReview);
     await tour.save();
     return res.status(201).json({
       success: true,
