@@ -30,14 +30,14 @@ export async function postUserReviewComment(req, res, next) {
     const createdNewReview = await newReview.save();
 
     const tour = await Tours.findById(tourId);
-  
+
     if (!tour) {
       return res.status(404).json({
         success: false,
         message: `Tour with ID ${tourId} not found.`,
       });
     }
-   
+
     tour.reviews.push(createdNewReview);
     await tour.save();
     return res.status(201).json({
@@ -47,6 +47,24 @@ export async function postUserReviewComment(req, res, next) {
     });
   } catch (error) {
     return res.status(500).json({
+      success: false,
+      message: `Internal server error : ${error.message}...!`,
+    });
+  }
+}
+
+export async function getAllReviewComments(req, res, next) {
+  try {
+    const reviews = await Review.find();
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: "All review comments are fetched...!",
+        data: reviews,
+      });
+  } catch (error) {
+    res.status.json({
       success: false,
       message: `Internal server error : ${error.message}...!`,
     });
