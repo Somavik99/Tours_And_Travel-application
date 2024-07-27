@@ -7,6 +7,7 @@ import userRouter from "./Routes/user.js";
 import cors from "cors";
 import tour from "./Routes/tours.js";
 import review from "./Routes/review.js";
+import bookingRouter from "./Routes/booking.js";
 
 dotenv.config();
 
@@ -39,10 +40,16 @@ app.use(
 
 app.use(cookieParser());
 
+// All api api enlisted
+
 app.use("/api/v1/authorizations", auth);
 app.use("/api/v1/users", userRouter);
-app.use("/api/v1/tours", tour); 
+app.use("/api/v1/tours", tour);
 app.use("/api/v1/review", review);
+app.use("/api/v1/tour_booking", bookingRouter);
+
+// Connecting mongoose server
+
 mongooseConnect()
   .then(function () {
     app.listen(port, () => {

@@ -45,11 +45,29 @@ export async function postBookingTourData(req, res, next) {
       data: bookingData,
     });
   } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: `internal server error : ${error.message}...!`,
+    });
+  }
+}
+
+export async function getAllBookingData(req, res, next) {
+  try {
+    const allBookings = await Booking.find();
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: "Booking data fetched successfully...!",
+        data: allBookings,
+      });
+  } catch (error) {
     return res
       .status(500)
       .json({
         success: false,
-        message: `internal server error : ${error.message}...!`,
+        message: `Internal server error : ${error.message}...!`,
       });
   }
 }
