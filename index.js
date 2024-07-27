@@ -41,7 +41,7 @@ app.use(cookieParser());
 
 app.use("/api/v1/authorizations", auth);
 app.use("/api/v1/users", userRouter);
-app.use("/api/v1/tours", tour);
+app.use("/api/v1/tours", tour); 
 app.use("/api/v1/review", review);
 mongooseConnect()
   .then(function () {
