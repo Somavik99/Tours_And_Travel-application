@@ -10,4 +10,4 @@ const bookingRouter = express.Router();
 bookingRouter.post("/tour/:id/booking", authenticateToken, postBookingTourData);
 bookingRouter.get("/all_bookings", getAllBookingData);
 
-export default bookingRouter
+export default bookingRouter;

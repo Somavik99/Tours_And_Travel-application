@@ -12,6 +12,7 @@ export async function postBookingTourData(req, res, next) {
   } = req.body;
   const userID = req.userId;
   const tourID = req.params.id;
+
   try {
     const user = await User.findById(userID);
     if (!user) {
@@ -22,13 +23,20 @@ export async function postBookingTourData(req, res, next) {
 
     const tour = await Tours.findById(tourID);
 
+    console.log("Tour Data : " + tour);
+
     const newBooking = new Booking({
       user: {
         id: userID,
         name: user.name,
         email: user.email,
       },
-      tour: tour,
+      tour: {
+        id: tourID,
+        title: tour.title,
+        address: tour.address,
+        city: tour.city,
+      },
       fullName,
       phoneNumber,
       bookingDate,
@@ -55,19 +63,15 @@ export async function postBookingTourData(req, res, next) {
 export async function getAllBookingData(req, res, next) {
   try {
     const allBookings = await Booking.find();
-    return res
-      .status(200)
-      .json({
-        success: true,
-        message: "Booking data fetched successfully...!",
-        data: allBookings,
-      });
+    return res.status(200).json({
+      success: true,
+      message: "Booking data fetched successfully...!",
+      data: allBookings,
+    });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        success: false,
-        message: `Internal server error : ${error.message}...!`,
-      });
+    return res.status(500).json({
+      success: false,
+      message: `Internal server error : ${error.message}...!`,
+    });
   }
 }
