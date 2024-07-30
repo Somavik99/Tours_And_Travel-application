@@ -138,22 +138,35 @@ export async function getLimitedToursData(req, res, next) {
   try {
     let { limit, skip } = req.query;
 
-    limit = parseInt(limit) || 10;
-    skip = parseInt(skip) || 0;
+    limit = parseInt(limit, 10) || 10;
+    skip = parseInt(skip, 10) || 0;
+
+    if (limit < 0 || skip < 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Limit cannot be negative...!" });
+    }
+
+    console.log("Limit :", limit, "Skip :", skip);
 
     const tour = await Tours.find().limit(limit).skip(skip);
+
+    const totalCount = await Tours.countDocuments();
 
     return res.status(200).json({
       success: true,
       message: "Limit applied to the data...!",
       data: tour,
+      totalCount: totalCount,
+      limit: limit,
+      skip: skip,
+      currentPage: Math.floor(skip / limit) + 1,
+      totalPages: Math.ceil(totalCount / limit),
     });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        success: false,
-        message: `Internal server error : ${error.message}...!`,
-      });
+    return res.status(500).json({
+      success: false,
+      message: `Internal server error : ${error.message}...!`,
+    });
   }
 }
