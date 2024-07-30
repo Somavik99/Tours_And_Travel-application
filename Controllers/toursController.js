@@ -133,3 +133,27 @@ export async function deleteTourData(req, res, next) {
 
 // } catch (error) {}
 // }
+
+export async function getLimitedToursData(req, res, next) {
+  try {
+    let { limit, skip } = req.query;
+
+    limit = parseInt(limit) || 10;
+    skip = parseInt(skip) || 0;
+
+    const tour = await Tours.find().limit(limit).skip(skip);
+
+    return res.status(200).json({
+      success: true,
+      message: "Limit applied to the data...!",
+      data: tour,
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({
+        success: false,
+        message: `Internal server error : ${error.message}...!`,
+      });
+  }
+}
