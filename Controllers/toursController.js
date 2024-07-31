@@ -55,15 +55,37 @@ export async function postToursLocation(req, res, next) {
 
 export async function getAllToursData(req, res, next) {
   try {
-    const findTours = await Tours.find();
+    let { limit, skip } = req.query;
 
-    res
-      .status(200)
-      .json({ success: true, message: "All tours data...!", data: findTours });
+    limit = parseInt(limit, 10) || 10;
+    skip = parseInt(skip, 10) || 0;
+
+    if (limit < 0 || skip < 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Limit cannot be negative...!" });
+    }
+
+    console.log("Limit :", limit, "Skip :", skip);
+
+    const tour = await Tours.find().limit(limit).skip(skip);
+
+    const totalCount = await Tours.countDocuments();
+
+    return res.status(200).json({
+      success: true,
+      message: "Limit applied to the data...!",
+      data: tour,
+      totalCount: totalCount,
+      limit: limit,
+      skip: skip,
+      currentPage: Math.floor(skip / limit) + 1,
+      totalPages: Math.ceil(totalCount / limit),
+    });
   } catch (error) {
-    return res.status(404).json({
+    return res.status(500).json({
       success: false,
-      message: `Tours data not fetched. Error happened : ${error.message}...!`,
+      message: `Internal server error : ${error.message}...!`,
     });
   }
 }
@@ -134,39 +156,6 @@ export async function deleteTourData(req, res, next) {
 // } catch (error) {}
 // }
 
-export async function getLimitedToursData(req, res, next) {
-  try {
-    let { limit, skip } = req.query;
-
-    limit = parseInt(limit, 10) || 10;
-    skip = parseInt(skip, 10) || 0;
-
-    if (limit < 0 || skip < 0) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Limit cannot be negative...!" });
-    }
-
-    console.log("Limit :", limit, "Skip :", skip);
-
-    const tour = await Tours.find().limit(limit).skip(skip);
-
-    const totalCount = await Tours.countDocuments();
-
-    return res.status(200).json({
-      success: true,
-      message: "Limit applied to the data...!",
-      data: tour,
-      totalCount: totalCount,
-      limit: limit,
-      skip: skip,
-      currentPage: Math.floor(skip / limit) + 1,
-      totalPages: Math.ceil(totalCount / limit),
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: `Internal server error : ${error.message}...!`,
-    });
-  }
-}
+// export async function getLimitedToursData(req, res, next) {
+  
+// }
