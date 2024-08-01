@@ -66,7 +66,7 @@ export async function getAllToursData(req, res, next) {
         .json({ success: false, message: "Limit cannot be negative...!" });
     }
 
-    console.log("Limit :", limit, "Skip :", skip);
+    // console.log("Limit :", limit, "Skip :", skip);
 
     const tour = await Tours.find().limit(limit).skip(skip);
 
