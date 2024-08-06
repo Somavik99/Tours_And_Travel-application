@@ -13,6 +13,7 @@ export async function postToursLocation(req, res, next) {
     maxGroupSize,
     photo,
     featured,
+    description
   } = req.body;
   const userId = req.userId;
 
@@ -33,6 +34,7 @@ export async function postToursLocation(req, res, next) {
       maxGroupSize,
       photo,
       featured,
+      description,
       user: {
         id: userId,
         name: user.name,

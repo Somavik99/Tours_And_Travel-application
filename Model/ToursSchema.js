@@ -33,6 +33,10 @@ const Tours = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  description:{
+    type: String,
+    // required: true,
+  },
 
   // Setting up review ref
 
