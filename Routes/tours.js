@@ -10,6 +10,6 @@ const tourRouter = express.Router();
 
 tourRouter.post("/sendTourLocation", authenticateToken, postToursLocation);
 tourRouter.get("/getAllToursData", getAllToursData);
-tourRouter.get("/singleTourData", getSingleTourData);
+tourRouter.get("/singleTourData/:id", getSingleTourData);
 
 export default tourRouter;
