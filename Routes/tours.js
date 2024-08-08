@@ -4,7 +4,7 @@ import {
   getAllToursData,
   getSingleTourData,
   postToursLocation,
-} from "../Controllers/toursController.js";
+} from "../Controllers/toursController.js"; 
 
 const tourRouter = express.Router();
 
