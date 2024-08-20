@@ -18,7 +18,7 @@ userRouter.get(
   restrictUserAccess(["user"]),
   getAllRegisteredUser
 );
-userRouter.get("/singleRegisteredUser", authenticateToken, getSingleRegisteredUser);
+userRouter.get("/singleRegisteredUser/me", authenticateToken, getSingleRegisteredUser);
 userRouter.put("/updateRegisteredUser", authenticateToken, updateRegisteredUser);
 userRouter.delete("/deleteRegisteredUser", authenticateToken, deleteRegisteredUser);
 
